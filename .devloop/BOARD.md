@@ -2,13 +2,13 @@
 
 ## 🔵 Backlog
 
-### Move the generic form controls in — `TextField` and `OptionCards` in rp-engine are generic enough to share. They stay put until a **second** consumer says what a shared text field actually needs. Guessing now produces props nobody wants. `MetadataField` and `StringListField` are **not** candidates: they carry rp-engine's domain shapes and their own bug fixes. _(bare card)_
+### **S003** · Move the generic form controls in — `TextField` and `OptionCards` in rp-engine are generic enough to share. They stay put until a **second** consumer says what a shared text field actually needs. Guessing now produces props nobody wants. `MetadataField` and `StringListField` are **not** candidates: they carry rp-engine's domain shapes and their own bug fixes. → [epic](epics/S003-move-generic-form-controls.md)
 
-### A dialog — the obvious next primitive, and the one that would make Reka UI pay for itself. Blocked on a real consumer: rp-engine confirms with `window.confirm()` in 8 places, and replacing those is a **behaviour change** that belongs in an rp-engine epic, not here. _(bare card)_
+### **S004** · A dialog — the obvious next primitive, and the one that would make Reka UI pay for itself. Blocked on a real consumer: rp-engine confirms with `window.confirm()` in 8 places, and replacing those is a **behaviour change** that belongs in an rp-engine epic, not here. → [epic](epics/S004-dialog.md)
 
 ## 🟡 Up Next
 
-### **S002** · v0.2 — `PMenu`, wrapping Reka UI's `DropdownMenu`. This is the one component that justifies the dependency: rp-engine's `TurnComposer.vue` hand-rolls roving focus, arrow keys, Escape, outside-pointerdown close and focus-return-to-trigger, backed by 153 lines of test. Reka does all of it plus typeahead and portalling. **Acceptance is strict: `TurnComposer.test.ts` must pass unchanged** — if a test needs editing, the swap changed behaviour and should be reverted. `reka-ui` gets installed here and not before.
+### **S002** · v0.2 — `PMenu`, wrapping Reka UI's `DropdownMenu`. This is the one component that justifies the dependency: rp-engine's `TurnComposer.vue` hand-rolls roving focus, arrow keys, Escape, outside-pointerdown close and focus-return-to-trigger, backed by 153 lines of test. Reka does all of it plus typeahead and portalling. **Acceptance is strict: `TurnComposer.test.ts` must pass unchanged** — if a test needs editing, the swap changed behaviour and should be reverted. `reka-ui` gets installed here and not before. → [epic](epics/S002-pmenu-reka-dropdown.md)
 
 ## 🟢 In Progress
 
