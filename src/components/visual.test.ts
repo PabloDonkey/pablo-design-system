@@ -83,4 +83,21 @@ for (const theme of themes) {
 
     await expect.element(screen.getByTestId("board")).toMatchScreenshot(`panel-${theme}`);
   });
+
+  test(`PPanel borderless and shadow options on the ${theme} ground`, async () => {
+    const screen = render(
+      board(theme, () =>
+        h("div", { class: "flex w-80 flex-col gap-4" }, [
+          h(PPanel, null, () => "bordered"),
+          h(PPanel, { borderless: true }, () => "borderless"),
+          h(PPanel, { shadow: "raised" }, () => "raised"),
+          h(PPanel, { borderless: true, shadow: "floating" }, () => "borderless + floating"),
+        ]),
+      ),
+    );
+
+    await expect
+      .element(screen.getByTestId("board"))
+      .toMatchScreenshot(`panel-options-${theme}`);
+  });
 }

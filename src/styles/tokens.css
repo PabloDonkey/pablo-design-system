@@ -76,6 +76,13 @@
   /* Two radii. The panel this replaces mixed four with no rule. */
   --radius-control: 4px;
   --radius-panel: 6px;
+
+  /* Two elevations, both from the mockup. Shadow means "floating above the
+     page", never "this block is separate from that one" -- separation is the
+     hairline's job. `raised` is for something that lifts slightly; `floating`
+     is for something detached, like a menu over content. */
+  --shadow-raised: 0 2px 10px rgba(0, 0, 0, 0.1);
+  --shadow-floating: 0 6px 20px rgba(0, 0, 0, 0.16);
 }
 
 /* Follows the operating system, unless the app has forced light. */
@@ -101,6 +108,9 @@
     --color-danger: #d97b74;
     --color-danger-soft: rgba(217, 123, 116, 0.14);
     --color-danger-contrast: #0e1413;
+
+    --shadow-raised: 0 2px 10px rgba(0, 0, 0, 0.45);
+    --shadow-floating: 0 6px 20px rgba(0, 0, 0, 0.55);
   }
 }
 
@@ -134,6 +144,9 @@
   --color-danger: #d97b74;
   --color-danger-soft: rgba(217, 123, 116, 0.14);
   --color-danger-contrast: #0e1413;
+
+  --shadow-raised: 0 2px 10px rgba(0, 0, 0, 0.45);
+  --shadow-floating: 0 6px 20px rgba(0, 0, 0, 0.55);
 }
 
 [data-theme="light"] {
@@ -157,4 +170,7 @@
   --color-danger: #9a3d38;
   --color-danger-soft: rgba(154, 61, 56, 0.11);
   --color-danger-contrast: #f5f6f4;
+
+  --shadow-raised: 0 2px 10px rgba(0, 0, 0, 0.1);
+  --shadow-floating: 0 6px 20px rgba(0, 0, 0, 0.16);
 }

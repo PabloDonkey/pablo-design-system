@@ -14,6 +14,13 @@
   [data-theme="dark"] { color-scheme: dark; }
   [data-theme="light"] { color-scheme: light; }
 
+  /* A re-themed subtree has to re-resolve its inherited text colour.
+     `color` is inherited as a COMPUTED value, so a descendant of <body> keeps
+     the ink that `body` resolved under the outer theme -- redefining the token
+     inside the subtree does nothing on its own. Without this line, dark text
+     stays dark inside a [data-theme="dark"] block and becomes unreadable. */
+  [data-theme] { color: var(--color-ink); }
+
   body {
     margin: 0;
     min-height: 100vh;
