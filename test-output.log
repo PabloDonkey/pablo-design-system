@@ -1,0 +1,362 @@
+
+> pablo-design-system@0.1.0 test
+> vitest run
+
+
+ RUN  v4.1.11 /home/pablo/projects/pablo-design-system
+
+6:22:49 PM [vite] (client) Re-optimizing dependencies because lockfile has changed
+stderr | src/components/PChip.test.ts > interactive and dismissible together give two separate buttons
+[@vue/compiler-core] decodeEntities option is passed but will be ignored in non-browser builds.
+ ❯ |chromium| src/components/PChip.test.ts (6 tests | 1 failed) 15166ms
+   × interactive and dismissible together give two separate buttons 14914ms
+ ❯ |chromium| src/components/PMenu.test.ts (7 tests | 7 failed) 104537ms
+   × opens on click 14938ms
+   × Escape closes and returns focus to trigger 14951ms
+   × arrow keys move between enabled items 14939ms
+   × disabled item does not activate on select 14950ms
+   × disabled item shows reason beside label 14950ms
+   × emits select event when enabled item is clicked 14904ms
+   × emits select with label as fallback when no value provided 14902ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 8 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |chromium| src/components/PChip.test.ts > interactive and dismissible together give two separate buttons
+Error: strict mode violation: page.getByRole('button', { name: 'noir' }) resolved to 2 elements:
+    1) <button type="button" class="transition-colors hover:border-hairline hover:text-ink">noir</button> aka getByRole('button', { name: 'noir', exact: true })
+    2) <button type="button" aria-label="Remove tag: noir" class="-mr-0.5 ml-0.5 inline-flex size-4 shrink-0 items-center justify-center rounded-control opacity-60 transition-opacity hover:opacity-100">…</button> aka getByLabel('Remove tag: noir')
+
+ ❯ src/components/PChip.test.ts:63:69
+     61|   });
+     62|
+     63|   await expect.element(screen.getByRole("button", { name: "noir" })).t…
+       |                                                                     ^
+     64|   await expect.element(screen.getByRole("button", { name: "Remove tag:…
+     65|
+
+Caused by: Error: Matcher did not succeed in time.
+ ❯ src/components/PChip.test.ts:63:2
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/8]⎯
+
+ FAIL  |chromium| src/components/PMenu.test.ts > opens on click
+VitestBrowserElementError: Cannot find element with locator: page.getByRole('menu')
+
+[36m<body>[39m
+  [0m
+  
+
+[0m
+  [36m<div>[39m
+    [0m[0m
+    [0m[0m
+    [0m[0m
+    [36m<button[39m
+      [33maria-expanded[39m=[32m"false"[39m
+      [33maria-haspopup[39m=[32m"menu"[39m
+      [33mclass[39m=[32m""[39m
+      [33mdata-state[39m=[32m"closed"[39m
+      [33mid[39m=[32m"reka-dropdown-menu-trigger-v-0"[39m
+      [33mtype[39m=[32m"button"[39m
+    [36m>[39m
+      [0m[0m
+      [0m[0m
+      [0m[object Object][0m
+      [0m[0m
+      [0m[0m
+    [36m</button>[39m
+    [90m<!--teleport start-->[39m
+    [90m<!--teleport end-->[39m
+    [0m[0m
+    [0m[0m
+    [0m[0m
+  [36m</div>[39m
+  [0m[0m
+  [0m[0m
+  [0m[0m
+  [0m[0m
+  [90m<!---->[39m
+  [0m[0m
+  [0m[0m
+  [0m[0m
+  [0m[0m
+[36m</body>[39m
+ ❯ src/components/PMenu.test.ts:26:49
+     24|
+     25|   // Menu should be open and items should be visible
+     26|   await expect.element(screen.getByRole("menu")).toBeVisible();
+       |                                                 ^
+     27|   await expect.element(screen.getByRole("menuitem", { name: "Edit" }))…
+     28| });
+
+Caused by: Error: Matcher did not succeed in time.
+ ❯ src/components/PMenu.test.ts:26:2
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/8]⎯
+
+ FAIL  |chromium| src/components/PMenu.test.ts > Escape closes and returns focus to trigger
+VitestBrowserElementError: Cannot find element with locator: page.getByRole('menu')
+
+[36m<body>[39m
+  [0m
+  
+
+[0m
+  [36m<div />[39m
+  [36m<div>[39m
+    [0m[0m
+    [0m[0m
+    [0m[0m
+    [36m<button[39m
+      [33maria-expanded[39m=[32m"false"[39m
+      [33maria-haspopup[39m=[32m"menu"[39m
+      [33mclass[39m=[32m""[39m
+      [33mdata-state[39m=[32m"closed"[39m
+      [33mid[39m=[32m"reka-dropdown-menu-trigger-v-0"[39m
+      [33mtype[39m=[32m"button"[39m
+    [36m>[39m
+      [0m[0m
+      [0m[0m
+      [0m[object Object][0m
+      [0m[0m
+      [0m[0m
+    [36m</button>[39m
+    [90m<!--teleport start-->[39m
+    [90m<!--teleport end-->[39m
+    [0m[0m
+    [0m[0m
+    [0m[0m
+  [36m</div>[39m
+  [0m[0m
+  [0m[0m
+  [0m[0m
+  [0m[0m
+  [90m<!---->[39m
+  [0m[0m
+  [0m[0m
+  [0m[0m
+  [0m[0m
+[36m</body>[39m
+ ❯ src/components/PMenu.test.ts:42:49
+     40|   // Open menu
+     41|   await trigger.click();
+     42|   await expect.element(screen.getByRole("menu")).toBeVisible();
+       |                                                 ^
+     43|
+     44|   // Press Escape
+
+Caused by: Error: Matcher did not succeed in time.
+ ❯ src/components/PMenu.test.ts:42:2
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/8]⎯
+
+ FAIL  |chromium| src/components/PMenu.test.ts > arrow keys move between enabled items
+VitestBrowserElementError: Cannot find element with locator: page.getByRole('menuitem', { name: 'Edit' })
+
+[36m<body>[39m
+  [0m
+  
+
+[0m
+  [36m<div />[39m
+  [36m<div />[39m
+  [36m<div>[39m
+    [0m[0m
+    [0m[0m
+    [0m[0m
+    [36m<button[39m
+      [33maria-expanded[39m=[32m"false"[39m
+      [33maria-haspopup[39m=[32m"menu"[39m
+      [33mclass[39m=[32m""[39m
+      [33mdata-state[39m=[32m"closed"[39m
+      [33mid[39m=[32m"reka-dropdown-menu-trigger-v-0"[39m
+      [33mtype[39m=[32m"button"[39m
+    [36m>[39m
+      [0m[0m
+      [0m[0m
+      [0m[object Object][0m
+      [0m[0m
+      [0m[0m
+    [36m</button>[39m
+    [90m<!--teleport start-->[39m
+    [90m<!--teleport end-->[39m
+    [0m[0m
+    [0m[0m
+    [0m[0m
+  [36m</div>[39m
+  [0m[0m
+  [0m[0m
+  [0m[0m
+  [0m[0m
+  [90m<!---->[39m
+  [0m[0m
+  [0m[0m
+  [0m[0m
+  [0m[0m
+[36m</body>[39m
+ ❯ src/components/PMenu.test.ts:69:34
+     67|   // First item should be highlighted
+     68|   let firstItem = screen.getByRole("menuitem", { name: "Edit" });
+     69|   await expect.element(firstItem).toHaveAttribute("data-highlighted", …
+       |                                  ^
+     70|
+     71|   // Arrow down should highlight second item
+
+Caused by: Error: Matcher did not succeed in time.
+ ❯ src/components/PMenu.test.ts:69:2
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/8]⎯
+
+ FAIL  |chromium| src/components/PMenu.test.ts > disabled item does not activate on select
+VitestBrowserElementError: Cannot find element with locator: page.getByRole('menuitem', { name: /Delete/ })
+
+[36m<body>[39m
+  [0m
+  
+
+[0m
+  [36m<div />[39m
+  [36m<div />[39m
+  [36m<div />[39m
+  [36m<div>[39m
+    [0m[0m
+    [0m[0m
+    [0m[0m
+    [36m<button[39m
+      [33maria-expanded[39m=[32m"false"[39m
+      [33maria-haspopup[39m=[32m"menu"[39m
+      [33mclass[39m=[32m""[39m
+      [33mdata-state[39m=[32m"closed"[39m
+      [33mid[39m=[32m"reka-dropdown-menu-trigger-v-0"[39m
+      [33mtype[39m=[32m"button"[39m
+    [36m>[39m
+      [0m[0m
+      [0m[0m
+      [0m[object Object][0m
+      [0m[0m
+      [0m[0m
+    [36m</button>[39m
+    [90m<!--teleport start-->[39m
+    [90m<!--teleport end-->[39m
+    [0m[0m
+    [0m[0m
+    [0m[0m
+  [36m</div>[39m
+  [0m[0m
+  [0m[0m
+  [0m[0m
+  [0m[0m
+  [90m<!---->[39m
+  [0m[0m
+  [0m[0m
+  [0m[0m
+  [0m[0m
+[36m</body>[39m
+ ❯ src/components/PMenu.test.ts:101:37
+     99|   // Try to click disabled item
+    100|   const disabledItem = screen.getByRole("menuitem", { name: /Delete/ }…
+    101|   await expect.element(disabledItem).toHaveAttribute("data-disabled", …
+       |                                     ^
+    102|
+    103|   // force: true bypasses actionability check to test the component re…
+
+Caused by: Error: Matcher did not succeed in time.
+ ❯ src/components/PMenu.test.ts:101:2
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/8]⎯
+
+ FAIL  |chromium| src/components/PMenu.test.ts > disabled item shows reason beside label
+VitestBrowserElementError: Cannot find element with locator: page.getByText('Cannot delete the default scenario')
+
+[36m<body>[39m
+  [0m
+  
+
+[0m
+  [36m<div />[39m
+  [36m<div />[39m
+  [36m<div />[39m
+  [36m<div />[39m
+  [36m<div>[39m
+    [0m[0m
+    [0m[0m
+    [0m[0m
+    [36m<button[39m
+      [33maria-expanded[39m=[32m"false"[39m
+      [33maria-haspopup[39m=[32m"menu"[39m
+      [33mclass[39m=[32m""[39m
+      [33mdata-state[39m=[32m"closed"[39m
+      [33mid[39m=[32m"reka-dropdown-menu-trigger-v-0"[39m
+      [33mtype[39m=[32m"button"[39m
+    [36m>[39m
+      [0m[0m
+      [0m[0m
+      [0m[object Object][0m
+      [0m[0m
+      [0m[0m
+    [36m</button>[39m
+    [90m<!--teleport start-->[39m
+    [90m<!--teleport end-->[39m
+    [0m[0m
+    [0m[0m
+    [0m[0m
+  [36m</div>[39m
+  [0m[0m
+  [0m[0m
+  [0m[0m
+  [0m[0m
+  [90m<!---->[39m
+  [0m[0m
+  [0m[0m
+  [0m[0m
+  [0m[0m
+[36m</body>[39m
+ ❯ src/components/PMenu.test.ts:125:39
+    123|   // Disabled item should have the reason text visible
+    124|   const disabledReason = screen.getByText("Cannot delete the default s…
+    125|   await expect.element(disabledReason).toBeVisible();
+       |                                       ^
+    126|
+    127|   // Item should not be hidden; it should still affect menu height
+
+Caused by: Error: Matcher did not succeed in time.
+ ❯ src/components/PMenu.test.ts:125:2
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/8]⎯
+
+ FAIL  |chromium| src/components/PMenu.test.ts > emits select event when enabled item is clicked
+TimeoutError: locator.click: Timeout 14847ms exceeded.
+Call log:
+[2m  - waiting for locator('[data-vitest="true"]').contentFrame().getByTestId('__vitest_0__').getByRole('menuitem', { name: 'Edit' })[22m
+
+ ❯ src/components/PMenu.test.ts:147:17
+    145|   // Click Edit item
+    146|   const editItem = screen.getByRole("menuitem", { name: "Edit" });
+    147|   await editItem.click();
+       |                 ^
+    148|
+    149|   // Should emit select with the item's value
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/8]⎯
+
+ FAIL  |chromium| src/components/PMenu.test.ts > emits select with label as fallback when no value provided
+TimeoutError: locator.click: Timeout 14855ms exceeded.
+Call log:
+[2m  - waiting for locator('[data-vitest="true"]').contentFrame().getByTestId('__vitest_0__').getByRole('menuitem', { name: 'Option A' })[22m
+
+ ❯ src/components/PMenu.test.ts:171:13
+    169|   // Click item
+    170|   const item = screen.getByRole("menuitem", { name: "Option A" });
+    171|   await item.click();
+       |             ^
+    172|
+    173|   // Should emit select with the label
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[8/8]⎯
+
+
+ Test Files  2 failed | 4 passed (6)
+      Tests  8 failed | 26 passed (34)
+   Start at  18:22:49
+   Duration  107.68s (transform 0ms, setup 519ms, import 5.60s, tests 120.93s, environment 0ms)
+

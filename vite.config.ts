@@ -19,7 +19,8 @@ export default defineConfig({
     },
     // `vue` is the consumer's copy. The font packages are plain CSS side
     // effects that the consumer resolves, so they stay external too.
-    rollupOptions: { external: [/^vue$/, /^@fontsource/] },
+    // `reka-ui` is also external so the consumer resolves one copy.
+    rollupOptions: { external: [/^vue$/, /^@fontsource/, /^reka-ui$/] },
     cssCodeSplit: false,
     // The consumer minifies. Leaving this off keeps the Tailwind class strings
     // readable in dist/, which matters: the consumer's Tailwind scans this

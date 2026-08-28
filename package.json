@@ -4,8 +4,13 @@
   "description": "Shared Vue 3 + Tailwind 4 design tokens and primitives.",
   "license": "MIT",
   "type": "module",
-  "sideEffects": ["*.css"],
-  "files": ["dist", "src/styles"],
+  "sideEffects": [
+    "*.css"
+  ],
+  "files": [
+    "dist",
+    "src/styles"
+  ],
   "exports": {
     ".": {
       "types": "./dist/types/index.d.ts",
@@ -32,7 +37,8 @@
   "dependencies": {
     "@fontsource-variable/ibm-plex-sans": "^5.3.0",
     "@fontsource-variable/newsreader": "^5.3.0",
-    "@fontsource/ibm-plex-mono": "^5.3.0"
+    "@fontsource/ibm-plex-mono": "^5.3.0",
+    "reka-ui": "^2.10.4"
   },
   "devDependencies": {
     "@histoire/plugin-vue": "^1.0.0-beta.1",
