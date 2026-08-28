@@ -31,3 +31,37 @@ test("an interactive chip carries type=button", async () => {
     .element(screen.getByRole("button", { name: "live" }))
     .toHaveAttribute("type", "button");
 });
+
+test("a dismissible chip emits dismiss when the X is pressed", async () => {
+  const screen = render(PChip, {
+    props: { dismissible: true, dismissLabel: "Remove tag: noir" },
+    slots: { default: "noir" },
+  });
+
+  await screen.getByRole("button", { name: "Remove tag: noir" }).click();
+
+  expect(screen.emitted().dismiss).toHaveLength(1);
+});
+
+test("the chip text survives next to the X", async () => {
+  const screen = render(PChip, { props: { dismissible: true }, slots: { default: "noir" } });
+
+  await expect.element(screen.getByText("noir")).toBeVisible();
+});
+
+/**
+ * A button cannot be nested inside a button. When a chip is both pressable and
+ * removable it has to become a span holding two buttons, or the markup is
+ * invalid and the X becomes unreachable.
+ */
+test("interactive and dismissible together give two separate buttons", async () => {
+  const screen = render(PChip, {
+    props: { interactive: true, dismissible: true, dismissLabel: "Remove tag: noir" },
+    slots: { default: "noir" },
+  });
+
+  await expect.element(screen.getByRole("button", { name: "noir" })).toBeVisible();
+  await expect.element(screen.getByRole("button", { name: "Remove tag: noir" })).toBeVisible();
+
+  expect(screen.container.querySelector("button button")).toBeNull();
+});

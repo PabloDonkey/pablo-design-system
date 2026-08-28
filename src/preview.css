@@ -1,11 +1,30 @@
 /*
  * What a consuming application's stylesheet looks like, used by the tests and
- * by Histoire.
+ * by Histoire. NOT shipped -- `files` in package.json publishes dist and
+ * src/styles only.
  *
- * The shipped `styles/index.css` deliberately does NOT import Tailwind -- the
+ * The shipped `styles/index.css` deliberately does NOT import Tailwind: the
  * consumer owns that, so there is only ever one utility layer. Previewing this
  * package therefore has to play the consumer's part and import both.
  */
 @import "tailwindcss";
 @import "./styles/index.css";
 @source "./components";
+
+/*
+ * Force the preview surface onto this package's tokens.
+ *
+ * The package puts `body { background; color }` in `@layer base`, which is
+ * correct for something an application installs -- a base layer should be easy
+ * to override. Histoire's sandbox ships its own UNLAYERED colours, and
+ * unlayered CSS beats any layer, so without this the sandbox paints its own
+ * text colour over ours and the panels render with near-invisible text.
+ *
+ * These rules are unlayered on purpose, so they win inside the playground only.
+ */
+html,
+body {
+  background: var(--color-ground);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+}

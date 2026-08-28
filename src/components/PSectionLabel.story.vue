@@ -10,13 +10,6 @@ import PSectionLabel from "./PSectionLabel.vue";
         <PSectionLabel size="sm">Small — eyebrow</PSectionLabel>
       </div>
     </Variant>
-
-    <Variant title="dark">
-      <div data-theme="dark" class="flex flex-col gap-3 bg-ground p-4">
-        <PSectionLabel size="md">Medium — section heading</PSectionLabel>
-        <PSectionLabel size="sm">Small — eyebrow</PSectionLabel>
-      </div>
-    </Variant>
   </Story>
 </template>
 

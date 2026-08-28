@@ -76,7 +76,7 @@ for (const theme of themes) {
       board(theme, () =>
         h("div", { class: "w-80" }, [
           h(PSectionLabel, { class: "mb-2" }, () => "Persona"),
-          h(PPanel, null, () => "Mira Vance, a lighthouse keeper's apprentice."),
+          h(PPanel, { class: "p-3" }, () => "Mira Vance, a lighthouse keeper's apprentice."),
         ]),
       ),
     );
@@ -88,10 +88,11 @@ for (const theme of themes) {
     const screen = render(
       board(theme, () =>
         h("div", { class: "flex w-80 flex-col gap-4" }, [
-          h(PPanel, null, () => "bordered"),
-          h(PPanel, { borderless: true }, () => "borderless"),
-          h(PPanel, { shadow: "raised" }, () => "raised"),
-          h(PPanel, { borderless: true, shadow: "floating" }, () => "borderless + floating"),
+          h(PPanel, { class: "p-3" }, () => "bordered"),
+          h(PPanel, { class: "p-3", borderless: true }, () => "borderless"),
+          h(PPanel, null, () => h("div", { class: "p-1 bg-accent-soft" }, "no padding — rows bring their own")),
+          h(PPanel, { class: "p-3", shadow: "raised" }, () => "raised"),
+          h(PPanel, { class: "p-3", borderless: true, shadow: "floating" }, () => "borderless + floating"),
         ]),
       ),
     );

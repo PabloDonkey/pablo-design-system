@@ -18,12 +18,6 @@ const tones = ["neutral", "accent", "warning", "danger"] as const;
         <PChip interactive tone="accent">live</PChip>
       </div>
     </Variant>
-
-    <Variant title="dark">
-      <div data-theme="dark" class="flex flex-wrap items-center gap-2 bg-ground p-4">
-        <PChip v-for="tone in tones" :key="tone" :tone="tone">{{ tone }}</PChip>
-      </div>
-    </Variant>
   </Story>
 </template>
 
