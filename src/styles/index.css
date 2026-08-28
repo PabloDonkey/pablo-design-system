@@ -1,0 +1,15 @@
+/*
+ * The package stylesheet. A consuming app imports this once, after Tailwind.
+ *
+ *   @import "tailwindcss";
+ *   @import "pablo-design-system/styles.css";
+ *   @source "../node_modules/pablo-design-system/dist";
+ *
+ * That third line is required, not optional: Tailwind skips node_modules when
+ * it scans for class names, so without it the package's components generate no
+ * CSS at all -- and nothing reports an error.
+ */
+
+@import "./fonts.css";
+@import "./tokens.css";
+@import "./base.css";

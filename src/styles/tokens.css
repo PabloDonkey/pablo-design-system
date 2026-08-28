@@ -1,0 +1,160 @@
+/*
+ * Design tokens.
+ *
+ * Values come from the "The Play View" mockup, which is the design source of
+ * record. Do not invent new colours here without changing that document first.
+ *
+ * Two rules make this work across projects:
+ *
+ * 1. `@theme static` forces every variable into `:root`, even the ones this
+ *    package never builds a utility for. Without `static`, Tailwind prunes
+ *    unused theme variables and a consuming app could not override them.
+ *
+ * 2. Every colour is written three times -- once for light, once for the
+ *    operating-system dark preference, once for an explicit `data-theme`.
+ *    The theme therefore lives in the TOKEN, so no component ever writes a
+ *    `dark:` class. This costs repetition in one file and saves it everywhere
+ *    else.
+ *
+ * Tailwind's own default palette is deliberately left in place. Consuming apps
+ * migrate to these tokens one class at a time, and `neutral-500` has to keep
+ * working while they do.
+ */
+
+@theme static {
+  /* Surfaces, back to front. */
+  --color-ground: #f5f6f4;
+  --color-surface: #ffffff;
+  --color-raised: #eceeeb;
+
+  /* Text, loudest to quietest. */
+  --color-ink: #141c1b;
+  --color-muted: #5c6a68;
+  --color-faint: #8a9391;
+
+  /* Borders. `hairline` is the ordinary one; `hairline-soft` divides items
+     inside an already-bordered box. */
+  --color-hairline: rgba(20, 28, 27, 0.13);
+  --color-hairline-soft: rgba(20, 28, 27, 0.07);
+
+  /* The accent marks the primary action and nothing else. */
+  --color-accent: #16645f;
+  --color-accent-soft: rgba(22, 100, 95, 0.11);
+  --color-accent-contrast: #f5f6f4;
+
+  /* Meaning, kept separate from the accent so a rebrand cannot change what
+     "destructive" looks like. */
+  --color-warning: #96652a;
+  --color-warning-soft: rgba(150, 101, 42, 0.13);
+  --color-danger: #9a3d38;
+  --color-danger-soft: rgba(154, 61, 56, 0.11);
+  --color-danger-contrast: #f5f6f4;
+
+  /* Three typefaces, three jobs. Each declares a real fallback stack, so a
+     font that fails to load still lands on something close. */
+  --font-display: "Newsreader Variable", Georgia, "Times New Roman", serif;
+  --font-body: "IBM Plex Sans Variable", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --font-mono: "IBM Plex Mono", "SF Mono", Menlo, Consolas, monospace;
+
+  /* Seven steps, named for the job rather than the size. This replaces the
+     ad-hoc `text-[11px]` / `text-[15px]` literals a page picks on its own. */
+  --text-micro: 0.6875rem;
+  --text-micro--line-height: 1.4;
+  --text-meta: 0.78125rem;
+  --text-meta--line-height: 1.45;
+  --text-body: 0.875rem;
+  --text-body--line-height: 1.5;
+  --text-prose: 1rem;
+  --text-prose--line-height: 1.6;
+  --text-title: 1.125rem;
+  --text-title--line-height: 1.35;
+  --text-page: 1.5rem;
+  --text-page--line-height: 1.2;
+  --text-display: 2.25rem;
+  --text-display--line-height: 1.05;
+
+  /* Two radii. The panel this replaces mixed four with no rule. */
+  --radius-control: 4px;
+  --radius-panel: 6px;
+}
+
+/* Follows the operating system, unless the app has forced light. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --color-ground: #0e1413;
+    --color-surface: #161e1d;
+    --color-raised: #1e2726;
+
+    --color-ink: #e4e9e7;
+    --color-muted: #8a9896;
+    --color-faint: #6b7876;
+
+    --color-hairline: rgba(228, 233, 231, 0.16);
+    --color-hairline-soft: rgba(228, 233, 231, 0.08);
+
+    --color-accent: #57bbb3;
+    --color-accent-soft: rgba(87, 187, 179, 0.14);
+    --color-accent-contrast: #0e1413;
+
+    --color-warning: #ce9a55;
+    --color-warning-soft: rgba(206, 154, 85, 0.14);
+    --color-danger: #d97b74;
+    --color-danger-soft: rgba(217, 123, 116, 0.14);
+    --color-danger-contrast: #0e1413;
+  }
+}
+
+/* An explicit choice wins in both directions, and works on ANY element -- not
+   only the document root. These are plain attribute selectors on purpose: the
+   tokens are inherited custom properties, so putting `data-theme` on a section
+   re-themes that subtree. A whole-page toggle is the same mechanism applied to
+   <html>, and needs no extra rule.
+
+   Specificity is equal to the `:root` defaults above, so source order decides,
+   and these come last. That is safe because they only match an element that
+   actually carries the attribute. */
+[data-theme="dark"] {
+  --color-ground: #0e1413;
+  --color-surface: #161e1d;
+  --color-raised: #1e2726;
+
+  --color-ink: #e4e9e7;
+  --color-muted: #8a9896;
+  --color-faint: #6b7876;
+
+  --color-hairline: rgba(228, 233, 231, 0.16);
+  --color-hairline-soft: rgba(228, 233, 231, 0.08);
+
+  --color-accent: #57bbb3;
+  --color-accent-soft: rgba(87, 187, 179, 0.14);
+  --color-accent-contrast: #0e1413;
+
+  --color-warning: #ce9a55;
+  --color-warning-soft: rgba(206, 154, 85, 0.14);
+  --color-danger: #d97b74;
+  --color-danger-soft: rgba(217, 123, 116, 0.14);
+  --color-danger-contrast: #0e1413;
+}
+
+[data-theme="light"] {
+  --color-ground: #f5f6f4;
+  --color-surface: #ffffff;
+  --color-raised: #eceeeb;
+
+  --color-ink: #141c1b;
+  --color-muted: #5c6a68;
+  --color-faint: #8a9391;
+
+  --color-hairline: rgba(20, 28, 27, 0.13);
+  --color-hairline-soft: rgba(20, 28, 27, 0.07);
+
+  --color-accent: #16645f;
+  --color-accent-soft: rgba(22, 100, 95, 0.11);
+  --color-accent-contrast: #f5f6f4;
+
+  --color-warning: #96652a;
+  --color-warning-soft: rgba(150, 101, 42, 0.13);
+  --color-danger: #9a3d38;
+  --color-danger-soft: rgba(154, 61, 56, 0.11);
+  --color-danger-contrast: #f5f6f4;
+}

@@ -1,0 +1,55 @@
+{
+  "name": "pablo-design-system",
+  "version": "0.1.0",
+  "description": "Shared Vue 3 + Tailwind 4 design tokens and primitives.",
+  "license": "MIT",
+  "type": "module",
+  "sideEffects": ["*.css"],
+  "files": ["dist", "src/styles"],
+  "exports": {
+    ".": {
+      "types": "./dist/types/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./styles.css": "./src/styles/index.css",
+    "./tokens.css": "./src/styles/tokens.css",
+    "./package.json": "./package.json"
+  },
+  "scripts": {
+    "build": "vite build && npm run build:types",
+    "build:types": "vue-tsc -p tsconfig.build.json",
+    "dev": "vite build --watch",
+    "typecheck": "vue-tsc --noEmit -p tsconfig.app.json",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "story:dev": "histoire dev",
+    "story:build": "histoire build"
+  },
+  "peerDependencies": {
+    "tailwindcss": "^4.3.0",
+    "vue": "^3.5.26"
+  },
+  "dependencies": {
+    "@fontsource-variable/ibm-plex-sans": "^5.3.0",
+    "@fontsource-variable/newsreader": "^5.3.0",
+    "@fontsource/ibm-plex-mono": "^5.3.0"
+  },
+  "devDependencies": {
+    "@histoire/plugin-vue": "^1.0.0-beta.1",
+    "@tailwindcss/vite": "^4.2.1",
+    "@types/node": "^24.10.1",
+    "@vitejs/plugin-vue": "^6.0.2",
+    "@vitest/browser": "^4.1.10",
+    "@vitest/browser-playwright": "^4.1.10",
+    "@vue/tsconfig": "^0.8.1",
+    "histoire": "^1.0.0-beta.1",
+    "playwright": "^1.62.1",
+    "tailwindcss": "^4.2.1",
+    "typescript": "~5.9.3",
+    "vite": "^7.3.1",
+    "vitest": "^4.1.10",
+    "vitest-browser-vue": "^2.1.0",
+    "vue": "^3.5.26",
+    "vue-tsc": "^3.1.5"
+  }
+}

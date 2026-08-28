@@ -1,0 +1,11 @@
+{
+  "extends": "./tsconfig.app.json",
+  "compilerOptions": {
+    "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.build.tsbuildinfo",
+    "noEmit": false,
+    "declaration": true,
+    "emitDeclarationOnly": true,
+    "declarationDir": "./dist/types"
+  },
+  "exclude": ["src/**/*.test.ts", "src/**/*.story.vue", "src/histoire.setup.ts", "src/test-setup.ts"]
+}

@@ -1,0 +1,16 @@
+/*
+ * Self-hosted typefaces.
+ *
+ * These are bundled rather than linked from a font service on purpose: the
+ * first consumer is reached over a private network and is often the only thing
+ * running, so an external request on every page load would sometimes be slow
+ * and sometimes fail, leaving the page in a fallback face.
+ *
+ * Newsreader and IBM Plex Sans ship as variable fonts -- one file covers every
+ * weight. IBM Plex Mono has no variable build, so it takes two static weights.
+ */
+
+@import "@fontsource-variable/newsreader";
+@import "@fontsource-variable/ibm-plex-sans";
+@import "@fontsource/ibm-plex-mono/400.css";
+@import "@fontsource/ibm-plex-mono/500.css";

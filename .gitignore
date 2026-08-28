@@ -1,0 +1,12 @@
+node_modules
+dist
+*.local
+.vite
+.histoire
+
+# Vitest browser mode drops run attachments here.
+.vitest-attachments
+
+# NOTE: __screenshots__ is deliberately NOT ignored. Visual-regression
+# baselines are committed. Failure screenshots are routed elsewhere by
+# `resolveScreenshotPath` in vitest.config.ts, so they never land here.

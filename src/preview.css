@@ -1,0 +1,11 @@
+/*
+ * What a consuming application's stylesheet looks like, used by the tests and
+ * by Histoire.
+ *
+ * The shipped `styles/index.css` deliberately does NOT import Tailwind -- the
+ * consumer owns that, so there is only ever one utility layer. Previewing this
+ * package therefore has to play the consumer's part and import both.
+ */
+@import "tailwindcss";
+@import "./styles/index.css";
+@source "./components";
