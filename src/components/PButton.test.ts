@@ -43,3 +43,16 @@ test("the danger variant is still just a button to a screen reader", async () =>
 
   await expect.element(screen.getByRole("button", { name: "Delete" })).toBeVisible();
 });
+
+/**
+ * `as="label"` exists for a native file input's trigger, which must be a real `<label>`
+ * wrapping the `<input>` to work at all -- a `<button>` cannot do this job.
+ */
+test("as=\"label\" renders a real <label>, not a <button>", async () => {
+  const screen = render(PButton, { props: { as: "label" }, slots: { default: "Import JSON" } });
+
+  const label = screen.getByText("Import JSON");
+  await expect.element(label).toBeVisible();
+  expect(label.element().tagName).toBe("LABEL");
+  expect(screen.container.querySelector("button")).toBeNull();
+});

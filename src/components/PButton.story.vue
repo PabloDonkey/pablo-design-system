@@ -13,6 +13,15 @@ const variants = ["primary", "secondary", "danger", "ghost"] as const;
         <PButton :variant="variant" disabled>Disabled</PButton>
       </div>
     </Variant>
+
+    <Variant title="as=&quot;label&quot; (file input trigger)">
+      <div class="flex flex-wrap items-center gap-2 bg-ground p-4">
+        <PButton as="label">
+          Import JSON
+          <input type="file" class="hidden" />
+        </PButton>
+      </div>
+    </Variant>
   </Story>
 </template>
 
@@ -50,6 +59,13 @@ cell, a message header, a chip strip — where a normal button would crowd its n
 - **Disabled is handled once.** It sets `disabled`, fades the button, blocks the pointer, and
   stops hover styling. You do not add classes for it.
 - **Focus is visible**, in both themes, from the package's base layer.
+
+## `as="label"`
+
+A native file input's trigger must be a real `<label>` wrapping the `<input>` -- a `<button>`
+cannot do this job. `disabled` still greys it out, but only visually: a `<label>` has no
+native disabled state, so disable the `<input>` inside it too, or the control looks inert
+but isn't.
 
 ## Do not
 

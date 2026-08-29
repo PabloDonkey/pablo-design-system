@@ -18,13 +18,21 @@ const props = withDefaults(
     /** Defaults to "button". A bare <button> inside a <form> submits it. */
     type?: "button" | "submit" | "reset";
     disabled?: boolean;
+    /**
+     * Render a `<label>` instead of a `<button>` -- for a native file input's
+     * trigger, which must be a `<label>` wrapping the `<input>` to work. A
+     * `<label>` has no native disabled state, so `disabled` only greys this
+     * one out visually; the caller is still responsible for disabling
+     * whatever the label wraps (the `<input>` itself).
+     */
+    as?: "button" | "label";
   }>(),
-  { variant: "secondary", size: "md", type: "button", disabled: false },
+  { variant: "secondary", size: "md", type: "button", disabled: false, as: "button" },
 );
 
 const base =
   "inline-flex items-center justify-center gap-1.5 rounded-control font-medium " +
-  "transition-colors disabled:cursor-not-allowed disabled:opacity-50";
+  "transition-colors";
 
 const variants: Record<Variant, string> = {
   primary: "bg-accent text-accent-contrast hover:not-disabled:opacity-90",
@@ -40,7 +48,28 @@ const sizes: Record<Size, string> = {
 </script>
 
 <template>
-  <button :type="props.type" :disabled="props.disabled" :class="[base, variants[props.variant], sizes[props.size]]">
+  <button
+    v-if="props.as === 'button'"
+    :type="props.type"
+    :disabled="props.disabled"
+    :class="[
+      base,
+      'disabled:cursor-not-allowed disabled:opacity-50',
+      variants[props.variant],
+      sizes[props.size],
+    ]"
+  >
     <slot />
   </button>
+  <label
+    v-else
+    :class="[
+      base,
+      props.disabled ? 'cursor-not-allowed opacity-50' : 'cursor-pointer',
+      variants[props.variant],
+      sizes[props.size],
+    ]"
+  >
+    <slot />
+  </label>
 </template>
