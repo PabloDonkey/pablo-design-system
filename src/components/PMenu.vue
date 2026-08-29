@@ -12,7 +12,13 @@ import type { DropdownMenuItemProps } from "reka-ui";
 export interface MenuItem extends Omit<DropdownMenuItemProps, "disabled"> {
   /** Item label, shown to all users. */
   label: string;
-  /** Optional reason why the item is disabled. If provided, item is disabled and reason is shown beside the label. */
+  /**
+   * Disable the item with no reason shown, for a state the caller does not want to explain
+   * beside the label (e.g. "a turn is generating"). For a state that should be explained,
+   * set `disabledReason` instead — it disables the item too.
+   */
+  disabled?: boolean;
+  /** Reason the item is disabled. If set, the item is disabled and the reason shows beside the label. */
   disabledReason?: string;
   /** Optional value to emit on select. Defaults to label. */
   value?: string;
@@ -69,14 +75,14 @@ const handleSelect = (value: string) => {
 
 <template>
   <DropdownMenuRoot :open="isOpen" @update:open="(o) => (isOpen = o)">
-    <DropdownMenuTrigger>
+    <DropdownMenuTrigger as-child :class="triggerClass">
       <slot />
     </DropdownMenuTrigger>
     <DropdownMenuPortal>
       <DropdownMenuContent :class="[contentBase, contentClass]" :side-offset="8">
         <template v-for="item in items" :key="item.label">
           <DropdownMenuItem
-            :disabled="!!item.disabledReason"
+            :disabled="!!item.disabled || !!item.disabledReason"
             :class="itemBase"
             @select="handleSelect(item.value || item.label)"
           >

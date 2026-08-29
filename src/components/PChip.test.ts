@@ -60,7 +60,10 @@ test("interactive and dismissible together give two separate buttons", async () 
     slots: { default: "noir" },
   });
 
-  await expect.element(screen.getByRole("button", { name: "noir" })).toBeVisible();
+  // `exact: true` on the first query: Playwright's accessible-name matching is substring by
+  // default, and "Remove tag: noir" contains "noir" too, so without it this query resolves
+  // to both buttons and the assertion times out with a strict-mode violation.
+  await expect.element(screen.getByRole("button", { name: "noir", exact: true })).toBeVisible();
   await expect.element(screen.getByRole("button", { name: "Remove tag: noir" })).toBeVisible();
 
   expect(screen.container.querySelector("button button")).toBeNull();
