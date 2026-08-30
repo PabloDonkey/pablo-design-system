@@ -112,3 +112,19 @@ test("class sizes the root; other attributes (data-testid) land on the viewport"
   expect(testIdEl.hasAttribute("data-reka-scroll-area-viewport")).toBe(true);
   expect(testIdEl.scrollHeight).toBeGreaterThan(testIdEl.clientHeight);
 });
+
+/**
+ * `style` follows the same split as `class` -- rp-engine's composer needs an inline
+ * `max-height` on the box that clips, which a Tailwind class alone cannot express (the value
+ * comes from a shared JS constant, and an arbitrary class built from a variable is invisible
+ * to Tailwind's static scan).
+ */
+test("style sizes the root, same as class", async () => {
+  const screen = render(PScrollArea, {
+    attrs: { style: "max-height: 96px" },
+    slots: { default: tallContent },
+  });
+  const root = screen.container.firstElementChild as HTMLElement;
+
+  expect(getComputedStyle(root).maxHeight).toBe("96px");
+});
