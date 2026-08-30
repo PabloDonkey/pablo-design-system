@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { computed, onBeforeUnmount, onMounted, ref, useAttrs } from "vue";
 import {
-  ScrollAreaCorner,
   ScrollAreaRoot,
   ScrollAreaScrollbar,
   ScrollAreaThumb,
@@ -41,6 +40,12 @@ import {
  * uses `type="always"` internally (Reka always mounts the scrollbar) and drives its opacity
  * itself, from the pointer's distance to the scrollbar's own bounding box, so it only
  * appears within `PROXIMITY_PX` of the strip itself (or while dragging its thumb).
+ *
+ * **Vertical only.** Neither current consumer needs horizontal scrolling (a chat transcript
+ * and a wrapping text field both just wrap), and mounting a `ScrollAreaScrollbar` at all --
+ * even an empty one, with nothing to scroll -- turns on that axis's `overflow: scroll` and
+ * gives it a real, visible track. Add it back deliberately, behind a prop, when a real
+ * consumer needs it -- guessing the shape now produces a prop nobody asked for.
  */
 defineOptions({ inheritAttrs: false });
 const props = withDefaults(
@@ -75,10 +80,13 @@ const PROXIMITY_PX = 50;
 const scrollbarBase =
   "flex touch-none select-none rounded-full bg-hairline-soft opacity-0 transition-opacity duration-150";
 
-// `bg-hairline` (the same token a 1px border uses) reads fine as a border -- a thin line gets
-// its contrast from the edge, not the fill -- but disappears as a filled shape, which is what
-// a thumb is. `muted` is the token already meant to read as visible-but-quiet content.
-const thumbBase = "relative flex-1 rounded-full bg-muted/50 transition-colors hover:bg-muted/70";
+// `bg-hairline` (the same token a 1px border uses) reads fine as a border -- a thin line
+// gets its contrast from the edge, not the fill -- but disappears as a filled shape, which is
+// what a thumb is. `bg-muted/50` (this component's first attempt) turned out to have the same
+// problem one step removed: `muted` is a mid-tone grey, and at 50% alpha over a near-white
+// ground the blended result is still pale enough to miss at a glance, not just on close
+// inspection. `ink`, the darkest token, gives more contrast per unit of opacity.
+const thumbBase = "relative flex-1 rounded-full bg-ink/25 transition-colors hover:bg-ink/40";
 
 const attrs = useAttrs();
 const viewportAttrs = computed(() => {
@@ -183,14 +191,6 @@ onBeforeUnmount(() => {
       >
         <ScrollAreaThumb :class="thumbBase" />
       </ScrollAreaScrollbar>
-      <ScrollAreaScrollbar
-        orientation="horizontal"
-        :class="[scrollbarBase, 'h-2 flex-col p-0.5']"
-        :style="{ opacity: near ? 1 : 0 }"
-      >
-        <ScrollAreaThumb :class="thumbBase" />
-      </ScrollAreaScrollbar>
-      <ScrollAreaCorner class="bg-hairline-soft" />
     </template>
   </ScrollAreaRoot>
 </template>

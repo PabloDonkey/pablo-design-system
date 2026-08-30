@@ -14,6 +14,21 @@ test("renders what it is given", async () => {
 });
 
 /**
+ * Neither current consumer needs horizontal scrolling, and mounting a horizontal
+ * `ScrollAreaScrollbar` at all -- even with nothing to scroll -- turns on that axis's
+ * `overflow: scroll` and draws a real, visible track along the bottom. A regression here
+ * once shipped a horizontal track under a transcript that never scrolls sideways.
+ */
+test("mounts no horizontal scrollbar", async () => {
+  const screen = render(PScrollArea, {
+    attrs: { class: "h-24" },
+    slots: { default: tallContent },
+  });
+
+  expect(screen.container.querySelector('[data-orientation="horizontal"]')).toBeNull();
+});
+
+/**
  * `type="always"` (Reka mounts the scrollbar unconditionally) plus this component's own
  * opacity: it exists in the DOM from the start, invisible, and only fades in once the
  * pointer is within `PROXIMITY_PX` of the scrollbar itself -- not anywhere in the content,
