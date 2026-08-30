@@ -186,7 +186,7 @@ onBeforeUnmount(() => {
     <template v-if="props.visible">
       <ScrollAreaScrollbar
         orientation="vertical"
-        :class="[scrollbarBase, 'w-2 p-0.5']"
+        :class="[scrollbarBase, 'w-3 p-1']"
         :style="{ opacity: near ? 1 : 0 }"
       >
         <ScrollAreaThumb :class="thumbBase" />
