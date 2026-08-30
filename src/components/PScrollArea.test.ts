@@ -114,17 +114,38 @@ test("class sizes the root; other attributes (data-testid) land on the viewport"
 });
 
 /**
- * `style` follows the same split as `class` -- rp-engine's composer needs an inline
- * `max-height` on the box that clips, which a Tailwind class alone cannot express (the value
- * comes from a shared JS constant, and an arbitrary class built from a variable is invisible
- * to Tailwind's static scan).
+ * `style` follows the same split as `class` -- rp-engine's composer needs an inline `height`
+ * on the box that clips (see the test below for why it must be `height` and not `max-height`),
+ * computed from a shared JS constant, which a Tailwind arbitrary class cannot express (a class
+ * built from a variable is invisible to Tailwind's static scan).
  */
 test("style sizes the root, same as class", async () => {
   const screen = render(PScrollArea, {
-    attrs: { style: "max-height: 96px" },
+    attrs: { style: "height: 96px" },
     slots: { default: tallContent },
   });
   const root = screen.container.firstElementChild as HTMLElement;
 
-  expect(getComputedStyle(root).maxHeight).toBe("96px");
+  expect(getComputedStyle(root).height).toBe("96px");
+});
+
+/**
+ * The single most likely way to misuse this component: `max-h-24` looks like the right class
+ * for "cap the height, then scroll." It clips visually, because the root still has
+ * `overflow: hidden` -- so a glance says it works. It does not actually scroll, because the
+ * viewport inside is `height: 100%` of the root, and a percentage height resolves against an
+ * *indeterminate* containing block (`max-height` alone, no explicit `height`) as `auto` --
+ * so the viewport just grows past the cap instead of clipping and tracks no overflow. A real
+ * `height` is the only thing that works, which is what the sibling test right above proves.
+ */
+test("max-height alone does not make the viewport scroll (documents the trap, doesn't endorse it)", async () => {
+  const screen = render(PScrollArea, {
+    attrs: { style: "max-height: 96px" },
+    slots: { default: tallContent },
+  });
+  const viewport = screen.container.querySelector(
+    "[data-reka-scroll-area-viewport]",
+  ) as HTMLElement;
+
+  expect(viewport.scrollHeight).toBe(viewport.clientHeight);
 });

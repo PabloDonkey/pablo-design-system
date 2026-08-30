@@ -15,17 +15,25 @@ import {
  * track and thumb without the OS's own arrows on some platforms.
  *
  * The root does not own height: pass a sizing class the same way `PPanel` takes spacing --
- * "how tall" is a caller decision (rp-engine's transcript fills its flex parent; its composer
- * caps at a fixed max-height).
+ * "how tall" is a caller decision (rp-engine's transcript fills its flex parent).
+ *
+ * **The root needs a definite `height`, not a `max-height`, if it should ever actually
+ * scroll.** The viewport inside is `height: 100%` of the root, and a percentage height
+ * resolves against an *indeterminate* containing block (one sized by `max-height` alone, with
+ * no explicit `height`) as `auto` -- so the viewport silently grows to match its content
+ * instead of clipping it, and Reka never detects an overflow to scroll. For a fixed box this
+ * is just `class="h-40"`; for a box that should grow with its content up to a cap (rp-engine's
+ * composer, whose field grows with what is typed), the caller has to compute that clamp
+ * itself and pass it as an explicit pixel `height` -- there is no way to express "auto, but
+ * capped, and still let a percentage child measure overflow" in CSS alone.
  *
  * This component has two DOM nodes a caller might reasonably want to reach, not one, so
  * automatic attribute fallthrough (which always targets a single root) is turned off and
- * split by hand: `class` and `style` size the root, the box that clips (rp-engine's composer
- * needs an inline `max-height`, not just a class); everything else (`data-testid`,
- * `aria-label`, and the like) describes the scrollable region itself and goes on the
- * viewport -- the root's own `scrollHeight` never exceeds its `clientHeight` (its child is
- * pinned to `h-full`), so a test or a screen reader asking "is this actually scrolling" needs
- * the viewport, not the root.
+ * split by hand: `class` and `style` size the root, the box that clips; everything else
+ * (`data-testid`, `aria-label`, and the like) describes the scrollable region itself and goes
+ * on the viewport -- the root's own `scrollHeight` never exceeds its `clientHeight` (its
+ * child is pinned to `h-full`), so a test or a screen reader asking "is this actually
+ * scrolling" needs the viewport, not the root.
  */
 defineOptions({ inheritAttrs: false });
 const props = withDefaults(

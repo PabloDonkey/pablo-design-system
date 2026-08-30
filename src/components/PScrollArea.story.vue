@@ -41,7 +41,24 @@ UI's `ScrollArea`.
 
 ```vue
 <PScrollArea class="h-full">              fills a flex parent (rp-engine's transcript)
-<PScrollArea class="max-h-40">            caps at a fixed height (rp-engine's composer)
+<PScrollArea class="h-40">                fixed height
+```
+
+**It must be a `height`, not a `max-height`, or it will not actually scroll.** The viewport
+inside is `height: 100%` of the root, and a percentage height resolves against an
+*indeterminate* containing block (one sized by `max-height` alone, with no explicit `height`)
+as `auto` — so the viewport silently grows to match its content instead of clipping it, and
+never tells Reka there is anything to scroll. `max-h-40` alone looks right, clips visually
+because the root still has `overflow: hidden`, and then does not scroll — the single most
+likely mistake with this component.
+
+For a box that should grow with its content up to a cap (rp-engine's composer, whose field
+grows with what is typed), there is no way to express "auto, but capped, and still let a
+percentage child measure overflow" in CSS alone. The caller computes the clamp itself and
+passes an explicit pixel height:
+
+```vue
+<PScrollArea :style="{ height: `${Math.min(contentHeightPx, MAX_HEIGHT_PX)}px` }">
 ```
 
 Padding on the *content* goes through `viewport-class`, not the root class -- the scrollbar
