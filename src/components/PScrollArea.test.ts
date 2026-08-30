@@ -1,3 +1,4 @@
+import { defineComponent, h, ref } from "vue";
 import { expect, test } from "vitest";
 import { userEvent } from "vitest/browser";
 import { render } from "vitest-browser-vue";
@@ -63,5 +64,30 @@ test("visible: false still lets the content scroll", async () => {
 
   viewport.scrollTop = 100;
 
+  expect(viewport.scrollTop).toBeGreaterThan(0);
+});
+
+/**
+ * A caller that follows scroll position (rp-engine's transcript, staying on the newest turn)
+ * needs the real scrolling element, not the root or the viewport wrapper -- Reka's own
+ * `ScrollAreaRoot` exposes exactly this under the same name, and this component re-exposes it
+ * for a caller that only knows `PScrollArea`, not Reka.
+ */
+test("exposes the real scrolling element as `viewport`", async () => {
+  const areaRef = ref<InstanceType<typeof PScrollArea> | null>(null);
+  const Host = defineComponent({
+    setup() {
+      return () =>
+        h(PScrollArea, { ref: areaRef, class: "h-24" }, { default: () => h("div", { style: "height: 400px" }, "tall") });
+    },
+  });
+
+  render(Host);
+
+  await expect.poll(() => areaRef.value?.viewport ?? null).not.toBeNull();
+  const viewport = areaRef.value!.viewport!;
+  expect(viewport.hasAttribute("data-reka-scroll-area-viewport")).toBe(true);
+
+  viewport.scrollTop = 50;
   expect(viewport.scrollTop).toBeGreaterThan(0);
 });

@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { ref } from "vue";
 import {
   ScrollAreaCorner,
   ScrollAreaRoot,
@@ -48,10 +49,29 @@ const scrollbarBase =
   "data-[state=hidden]:opacity-0 data-[state=visible]:opacity-100";
 
 const thumbBase = "relative flex-1 rounded-full bg-hairline";
+
+// Reka's `ScrollAreaRoot` already exposes `viewport`, the actual scrolling element, to code
+// that imports Reka directly (its own docs call it out for exactly this: a caller that needs
+// to read or drive scroll position). A caller of this component sees `PScrollArea`, not
+// Reka, so the same element is re-exposed here under the same name -- rp-engine's transcript
+// needs it to follow the newest turn.
+//
+// A getter, not a `computed`: `defineExpose` hands the parent this object as-is, and Vue's
+// public-instance proxy auto-unwraps a top-level ref on read -- so `rootRef.value.viewport`
+// is already the raw element (Reka's own `viewport` ref, unwrapped the same way), not
+// something a caller must `.value` again. The getter still tracks correctly inside a
+// caller's own `computed`, because Vue collects dependencies by which ref's `.value` is read
+// during the active effect, not by which function reads it.
+const rootRef = ref<{ viewport: HTMLElement | undefined } | null>(null);
+defineExpose({
+  get viewport(): HTMLElement | null {
+    return rootRef.value?.viewport ?? null;
+  },
+});
 </script>
 
 <template>
-  <ScrollAreaRoot type="hover" class="relative overflow-hidden">
+  <ScrollAreaRoot ref="rootRef" type="hover" class="relative overflow-hidden">
     <ScrollAreaViewport class="h-full w-full" :class="viewportClass">
       <slot />
     </ScrollAreaViewport>
