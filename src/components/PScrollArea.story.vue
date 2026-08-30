@@ -6,8 +6,12 @@ const lines = Array.from({ length: 40 }, (_, i) => `Line ${i + 1} of the scrolli
 
 <template>
   <Story title="Primitives/PScrollArea" :layout="{ type: 'grid', width: 360 }">
-    <Variant title="subtle (default) — hover to see it">
+    <Variant title="subtle (default) — move near the right edge to see it">
       <div class="bg-ground p-4">
+        <p class="mb-2 text-micro text-muted">
+          Reading the text doesn't paint a scrollbar -- only getting within ~50px of the
+          strip on the right edge does.
+        </p>
         <PScrollArea class="h-48 rounded-panel border border-hairline-soft bg-surface p-3">
           <p v-for="line in lines" :key="line" class="text-body">{{ line }}</p>
         </PScrollArea>
@@ -71,9 +75,12 @@ away from the edge instead of padding the content.
 
 ## `visible` — can the scrollbar ever show?
 
-- **`true` (default).** Reka's own `hover` strategy: nothing is in the DOM until the pointer
-  enters the area or it is scrolled, then a thin track and thumb fade in, and fade back out
-  when the pointer leaves. This is the ordinary, subtle case.
+- **`true` (default).** A thin track and thumb fade in once the pointer is within `50px` of
+  the scrollbar itself (or while dragging its thumb), and fade back out otherwise. Distance
+  is measured to the scrollbar's own box, not the whole scroll area -- reading text in the
+  middle of a long transcript must not paint a scrollbar over it, which is what Reka's own
+  `type="hover"` would do (it reveals on hovering *anywhere* in the content). This component
+  uses `type="always"` internally instead and drives the opacity itself.
 - **`false`.** No scrollbar is ever rendered. The area still scrolls -- by wheel, drag, touch,
   or a script setting `scrollTop` -- there is simply no visual affordance for it, ever. Use
   this where the affordance itself would be noise: rp-engine's composer grows a text field up
@@ -81,6 +88,13 @@ away from the edge instead of padding the content.
   clutter, not as help.
 
 Which one applies is a caller decision. This component does not guess it from context.
+
+## Thumb colour
+
+The thumb is `muted`, not `hairline`. `hairline` is the same low-opacity tint a 1px border
+uses, and that reads fine as a border -- a thin line gets its contrast from the edge, not the
+fill -- but disappears as a filled shape at a thumb's size and shape. `muted` is the token
+already meant to read as visible-but-quiet content, which is what a thumb actually is.
 
 ## Do not
 

@@ -14,25 +14,58 @@ test("renders what it is given", async () => {
 });
 
 /**
- * The default is Reka's own `type="hover"`: no scrollbar exists in the DOM at all until the
- * pointer enters the area. This is the "subtle" behaviour the caller usually wants, and it
- * comes from Reka rather than anything this component adds.
+ * `type="always"` (Reka mounts the scrollbar unconditionally) plus this component's own
+ * opacity: it exists in the DOM from the start, invisible, and only fades in once the
+ * pointer is within `PROXIMITY_PX` of the scrollbar itself -- not anywhere in the content,
+ * which is what Reka's own `type="hover"` would do instead.
  */
-test("the scrollbar is absent until the pointer enters the area, then appears", async () => {
+test("the scrollbar is invisible until the pointer is near it, then fades in", async () => {
   const screen = render(PScrollArea, {
     attrs: { class: "h-24" },
     slots: { default: tallContent },
   });
   const area = screen.container.firstElementChild as HTMLElement;
+  const scrollbar = area.querySelector('[data-orientation="vertical"]') as HTMLElement;
 
-  expect(area.querySelector('[data-orientation="vertical"]')).toBeNull();
+  expect(scrollbar).not.toBeNull();
+  expect(getComputedStyle(scrollbar).opacity).toBe("0");
 
-  await userEvent.hover(area);
+  await userEvent.hover(scrollbar);
 
-  await expect
-    .poll(() => area.querySelector('[data-orientation="vertical"]'))
-    .not.toBeNull();
+  await expect.poll(() => getComputedStyle(scrollbar).opacity).toBe("1");
 });
+
+/**
+ * Distance is measured to the scrollbar's own box, not the scroll area as a whole -- reading
+ * the transcript's text (far from the strip) must not paint a scrollbar over it.
+ */
+test("far from the scrollbar, it stays invisible even though the pointer is inside the area", async () => {
+  const screen = render(PScrollArea, {
+    attrs: { class: "h-24 w-64" },
+    slots: { default: tallContent },
+  });
+  const area = screen.container.firstElementChild as HTMLElement;
+  const scrollbar = area.querySelector('[data-orientation="vertical"]') as HTMLElement;
+
+  area.dispatchEvent(
+    new PointerEvent("pointermove", { bubbles: true, clientX: 5, clientY: 5 }),
+  );
+
+  expect(getComputedStyle(scrollbar).opacity).toBe("0");
+});
+
+/**
+ * A drag must not end the moment the cursor drifts more than `PROXIMITY_PX` away from the
+ * strip -- a fast drag routinely does that -- so `PScrollArea.vue`'s `handlePointerDown` pins
+ * the scrollbar visible for the whole press, re-evaluating proximity only on release.
+ *
+ * Not covered by an automated test: a synthetic `PointerEvent` has no OS-level pointer
+ * behind it, and Reka's own drag handler on the scrollbar calls
+ * `Element.setPointerCapture(event.pointerId)`, which throws `NotFoundError` for a pointer
+ * id the browser never saw as genuinely pressed -- the exception aborts bubbling before it
+ * ever reaches this component's own `window` listener. Verified by hand instead (see the
+ * story's "always visible" note, and the manual check in rp-engine's S035 epic).
+ */
 
 /**
  * `visible: false` is the escape hatch rp-engine's composer needs: a spot where any visible
