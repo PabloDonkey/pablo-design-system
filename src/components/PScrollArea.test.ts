@@ -91,3 +91,24 @@ test("exposes the real scrolling element as `viewport`", async () => {
   viewport.scrollTop = 50;
   expect(viewport.scrollTop).toBeGreaterThan(0);
 });
+
+/**
+ * `class` and every other attribute go to different DOM nodes: the root's own `scrollHeight`
+ * never exceeds its `clientHeight` (its child is pinned to `h-full`), so a consumer test
+ * asking "is this element actually the one scrolling" -- rp-engine's does, by `data-testid`
+ * -- needs the answer to come from the viewport, not the root.
+ */
+test("class sizes the root; other attributes (data-testid) land on the viewport", async () => {
+  const screen = render(PScrollArea, {
+    attrs: { class: "h-24", "data-testid": "well" },
+    slots: { default: tallContent },
+  });
+  const root = screen.container.firstElementChild as HTMLElement;
+
+  expect(root.getAttribute("data-testid")).toBeNull();
+  expect(getComputedStyle(root).position).toBe("relative");
+
+  const testIdEl = screen.getByTestId("well").element();
+  expect(testIdEl.hasAttribute("data-reka-scroll-area-viewport")).toBe(true);
+  expect(testIdEl.scrollHeight).toBeGreaterThan(testIdEl.clientHeight);
+});

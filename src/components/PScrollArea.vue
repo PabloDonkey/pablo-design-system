@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { computed, ref, useAttrs } from "vue";
 import {
   ScrollAreaCorner,
   ScrollAreaRoot,
@@ -16,9 +16,17 @@ import {
  *
  * The root does not own height: pass a sizing class the same way `PPanel` takes spacing --
  * "how tall" is a caller decision (rp-engine's transcript fills its flex parent; its composer
- * caps at a fixed max-height). Vue's automatic attribute fallthrough handles that, since
- * `ScrollAreaRoot` is this component's only root element.
+ * caps at a fixed max-height).
+ *
+ * This component has two DOM nodes a caller might reasonably want to reach, not one, so
+ * automatic attribute fallthrough (which always targets a single root) is turned off and
+ * split by hand: `class` sizes the root, the box that clips; everything else (`data-testid`,
+ * `aria-label`, and the like) describes the scrollable region itself and goes on the
+ * viewport -- the root's own `scrollHeight` never exceeds its `clientHeight` (its child is
+ * pinned to `h-full`), so a test or a screen reader asking "is this actually scrolling" needs
+ * the viewport, not the root.
  */
+defineOptions({ inheritAttrs: false });
 const props = withDefaults(
   defineProps<{
     /**
@@ -50,6 +58,12 @@ const scrollbarBase =
 
 const thumbBase = "relative flex-1 rounded-full bg-hairline";
 
+const attrs = useAttrs();
+const viewportAttrs = computed(() => {
+  const { class: _rootClass, ...rest } = attrs;
+  return rest;
+});
+
 // Reka's `ScrollAreaRoot` already exposes `viewport`, the actual scrolling element, to code
 // that imports Reka directly (its own docs call it out for exactly this: a caller that needs
 // to read or drive scroll position). A caller of this component sees `PScrollArea`, not
@@ -71,8 +85,13 @@ defineExpose({
 </script>
 
 <template>
-  <ScrollAreaRoot ref="rootRef" type="hover" class="relative overflow-hidden">
-    <ScrollAreaViewport class="h-full w-full" :class="viewportClass">
+  <ScrollAreaRoot
+    ref="rootRef"
+    type="hover"
+    class="relative overflow-hidden"
+    :class="attrs.class"
+  >
+    <ScrollAreaViewport v-bind="viewportAttrs" class="h-full w-full" :class="viewportClass">
       <slot />
     </ScrollAreaViewport>
     <template v-if="props.visible">
