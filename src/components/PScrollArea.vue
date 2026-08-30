@@ -184,9 +184,13 @@ onBeforeUnmount(() => {
       <slot />
     </ScrollAreaViewport>
     <template v-if="props.visible">
+      <!-- Reka positions this flush against the root's edges (`right: 0`, absolute). `mr-1
+           my-1` still works despite that -- margin on an absolutely positioned box adds to
+           its offset -- and gives the bar a small floating gap instead of sitting glued to
+           the panel's own border. -->
       <ScrollAreaScrollbar
         orientation="vertical"
-        :class="[scrollbarBase, 'w-3 p-1']"
+        :class="[scrollbarBase, 'w-2 p-0.5 mr-1 my-1']"
         :style="{ opacity: near ? 1 : 0 }"
       >
         <ScrollAreaThumb :class="thumbBase" />
