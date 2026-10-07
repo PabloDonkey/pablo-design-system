@@ -38,7 +38,7 @@ const selectedHint = ref<string>();
       <div class="flex flex-col gap-4 bg-ground p-4">
         <div class="flex items-center gap-2">
           <PMenu :items="basicItems" @select="(v) => (selectedEdit = v)">
-            <PButton variant="secondary">Actions ▾</PButton>
+            <PButton>Actions ▾</PButton>
           </PMenu>
           <span v-if="selectedEdit" class="text-micro text-muted">Selected: {{ selectedEdit }}</span>
         </div>
@@ -53,7 +53,7 @@ const selectedHint = ref<string>();
         </p>
         <div class="flex items-center gap-2">
           <PMenu :items="itemsWithDisabled" @select="(v) => (selectedDisabled = v)">
-            <PButton variant="secondary">Scenario ▾</PButton>
+            <PButton>Scenario ▾</PButton>
           </PMenu>
           <span v-if="selectedDisabled" class="text-micro text-muted">
             Selected: {{ selectedDisabled }}
@@ -67,7 +67,7 @@ const selectedHint = ref<string>();
       <div class="flex flex-col gap-4 bg-ground p-4">
         <div class="flex items-center gap-2">
           <PMenu :items="itemsWithHint" @select="(v) => (selectedHint = v)">
-            <PButton variant="secondary">File ▾</PButton>
+            <PButton>File ▾</PButton>
           </PMenu>
           <span v-if="selectedHint" class="text-micro text-muted">Selected: {{ selectedHint }}</span>
         </div>
@@ -78,7 +78,7 @@ const selectedHint = ref<string>();
     <Variant title="Primary trigger">
       <div class="flex items-center gap-2 bg-ground p-4">
         <PMenu :items="basicItems" @select="selectedEdit = $event">
-          <PButton variant="primary">Send ▾</PButton>
+          <PButton variant="solid" tone="accent">Send ▾</PButton>
         </PMenu>
       </div>
     </Variant>

@@ -8,12 +8,16 @@
  * found and would silently generate no CSS.
  */
 
-type Variant = "primary" | "secondary" | "danger" | "ghost";
+/** The style: a filled button, a border only, or text only. */
+type Variant = "solid" | "outline" | "ghost";
+/** The colour. The same four names as PChip's `tone`. */
+type Tone = "neutral" | "accent" | "warning" | "danger";
 type Size = "sm" | "md";
 
 const props = withDefaults(
   defineProps<{
     variant?: Variant;
+    tone?: Tone;
     size?: Size;
     /** Defaults to "button". A bare <button> inside a <form> submits it. */
     type?: "button" | "submit" | "reset";
@@ -27,18 +31,40 @@ const props = withDefaults(
      */
     as?: "button" | "label";
   }>(),
-  { variant: "secondary", size: "md", type: "button", disabled: false, as: "button" },
+  {
+    variant: "outline",
+    tone: "neutral",
+    size: "md",
+    type: "button",
+    disabled: false,
+    as: "button",
+  },
 );
 
 const base =
   "inline-flex items-center justify-center gap-1.5 rounded-control font-medium " +
   "transition-colors";
 
-const variants: Record<Variant, string> = {
-  primary: "bg-accent text-accent-contrast hover:not-disabled:opacity-90",
-  secondary: "border border-hairline bg-surface text-ink hover:not-disabled:bg-raised",
-  danger: "border border-danger text-danger hover:not-disabled:bg-danger-soft",
-  ghost: "text-muted hover:not-disabled:bg-raised hover:not-disabled:text-ink",
+// One full class string for each variant and tone. See the comment at the top.
+const styles: Record<Variant, Record<Tone, string>> = {
+  solid: {
+    neutral: "bg-ink text-ground hover:not-disabled:opacity-90",
+    accent: "bg-accent text-accent-contrast hover:not-disabled:opacity-90",
+    warning: "bg-warning text-warning-contrast hover:not-disabled:opacity-90",
+    danger: "bg-danger text-danger-contrast hover:not-disabled:opacity-90",
+  },
+  outline: {
+    neutral: "border border-hairline bg-surface text-ink hover:not-disabled:bg-raised",
+    accent: "border border-accent text-accent hover:not-disabled:bg-accent-soft",
+    warning: "border border-warning text-warning hover:not-disabled:bg-warning-soft",
+    danger: "border border-danger text-danger hover:not-disabled:bg-danger-soft",
+  },
+  ghost: {
+    neutral: "text-muted hover:not-disabled:bg-raised hover:not-disabled:text-ink",
+    accent: "text-accent hover:not-disabled:bg-accent-soft",
+    warning: "text-warning hover:not-disabled:bg-warning-soft",
+    danger: "text-danger hover:not-disabled:bg-danger-soft",
+  },
 };
 
 const sizes: Record<Size, string> = {
@@ -55,7 +81,7 @@ const sizes: Record<Size, string> = {
     :class="[
       base,
       'disabled:cursor-not-allowed disabled:opacity-50',
-      variants[props.variant],
+      styles[props.variant][props.tone],
       sizes[props.size],
     ]"
   >
@@ -66,7 +92,7 @@ const sizes: Record<Size, string> = {
     :class="[
       base,
       props.disabled ? 'cursor-not-allowed opacity-50' : 'cursor-pointer',
-      variants[props.variant],
+      styles[props.variant][props.tone],
       sizes[props.size],
     ]"
   >

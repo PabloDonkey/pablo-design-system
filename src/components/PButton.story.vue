@@ -1,16 +1,19 @@
 <script setup lang="ts">
 import PButton from "./PButton.vue";
 
-const variants = ["primary", "secondary", "danger", "ghost"] as const;
+const variants = ["solid", "outline", "ghost"] as const;
+const tones = ["neutral", "accent", "warning", "danger"] as const;
 </script>
 
 <template>
   <Story title="Primitives/PButton" :layout="{ type: 'grid', width: 420 }">
     <Variant v-for="variant in variants" :key="variant" :title="variant">
-      <div class="flex flex-wrap items-center gap-2 bg-ground p-4">
-        <PButton :variant="variant" size="sm">Small</PButton>
-        <PButton :variant="variant">Normal</PButton>
-        <PButton :variant="variant" disabled>Disabled</PButton>
+      <div class="flex flex-col gap-2 bg-ground p-4">
+        <div v-for="tone in tones" :key="tone" class="flex flex-wrap items-center gap-2">
+          <PButton :variant="variant" :tone="tone" size="sm">{{ tone }}</PButton>
+          <PButton :variant="variant" :tone="tone">{{ tone }}</PButton>
+          <PButton :variant="variant" :tone="tone" disabled>Disabled</PButton>
+        </div>
       </div>
     </Variant>
 
@@ -33,19 +36,38 @@ The one button. Every clickable action uses it.
 It replaced 32 hand-written `<button>` elements in the rp-engine admin panel, which between
 them used eight different class strings to describe the same control.
 
-## Which variant
+## Two choices: variant and tone
 
-Pick by **what the action does**, not by how you want it to look.
+A button has two props for its look. They are separate, so any style goes with any colour.
 
-| Variant | Use it for | How many per screen |
+**`variant`** is the style. Pick by how loud the action must be.
+
+| Variant | Looks like | Use it for |
 |---|---|---|
-| `primary` | The one action the screen exists for. Send, Save, Create. | **One.** If two things are primary, neither is. |
-| `secondary` | Ordinary actions. Cancel, Export, Edit. | As many as you need. |
-| `danger` | Actions that destroy or cannot be undone. Delete, Retire, Block. | Rare. |
-| `ghost` | Actions that must be available but should stay quiet. | A few. |
+| `solid` | Filled with the colour. | The one action the screen exists for. Send, Save, Create. **One per screen.** If two things are solid, neither stands out. |
+| `outline` | A border and coloured text. The default. | Ordinary actions. Cancel, Export, Edit. |
+| `ghost` | Text only, until hover. | Actions that must be available but should stay quiet. |
+
+**`tone`** is the colour. Pick by what the action means. The names are the same as PChip's `tone`.
+
+| Tone | Use it for |
+|---|---|
+| `neutral` | Most actions. The default. |
+| `accent` | The main action, or an action that adds or keeps something. |
+| `warning` | An action that changes something the user must check. |
+| `danger` | Actions that destroy or cannot be undone. Delete, Retire, Block. Rare. |
 
 `danger` is a promise, not a colour. Use it only when something is really lost. A button that
 looks dangerous but is not teaches people to ignore the warning.
+
+Common pairs:
+
+| Old name | Now |
+|---|---|
+| `primary` | `variant="solid" tone="accent"` |
+| `secondary` | the defaults: `variant="outline" tone="neutral"` |
+| `danger` | `tone="danger"` (outline) |
+| `ghost` | `variant="ghost"` |
 
 ## Sizes
 
