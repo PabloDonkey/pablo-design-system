@@ -22,7 +22,7 @@ repetition actually justified.
 
 | Component | What it is for |
 |---|---|
-| **PButton** | Every clickable action. Four variants, chosen by what the action *does*. |
+| **PButton** | Every clickable action. A `variant` for the style and a `tone` for the colour. |
 | **PChip** | A small marker reporting one fact — a turn number, a state, a count. |
 | **PPanel** | The bordered box that holds a block of content. |
 | **PSectionLabel** | The quiet uppercase heading that names a section. |

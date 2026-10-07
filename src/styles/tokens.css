@@ -46,6 +46,7 @@
      "destructive" looks like. */
   --color-warning: #96652a;
   --color-warning-soft: rgba(150, 101, 42, 0.13);
+  --color-warning-contrast: #f5f6f4;
   --color-danger: #9a3d38;
   --color-danger-soft: rgba(154, 61, 56, 0.11);
   --color-danger-contrast: #f5f6f4;
@@ -105,6 +106,7 @@
 
     --color-warning: #ce9a55;
     --color-warning-soft: rgba(206, 154, 85, 0.14);
+    --color-warning-contrast: #0e1413;
     --color-danger: #d97b74;
     --color-danger-soft: rgba(217, 123, 116, 0.14);
     --color-danger-contrast: #0e1413;
@@ -141,6 +143,7 @@
 
   --color-warning: #ce9a55;
   --color-warning-soft: rgba(206, 154, 85, 0.14);
+  --color-warning-contrast: #0e1413;
   --color-danger: #d97b74;
   --color-danger-soft: rgba(217, 123, 116, 0.14);
   --color-danger-contrast: #0e1413;
@@ -167,6 +170,7 @@
 
   --color-warning: #96652a;
   --color-warning-soft: rgba(150, 101, 42, 0.13);
+  --color-warning-contrast: #f5f6f4;
   --color-danger: #9a3d38;
   --color-danger-soft: rgba(154, 61, 56, 0.11);
   --color-danger-contrast: #f5f6f4;
