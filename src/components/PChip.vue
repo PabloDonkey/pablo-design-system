@@ -38,7 +38,7 @@ const base =
   "inline-flex items-center gap-1 whitespace-nowrap rounded-control border " +
   "py-0.5 font-mono text-micro";
 
-const tones: Record<Tone, string> = {
+const toneClasses: Record<Tone, string> = {
   neutral: "border-hairline text-muted",
   accent: "border-transparent bg-accent-soft text-accent",
   warning: "border-transparent bg-warning-soft text-warning",
@@ -56,7 +56,7 @@ const dismissButton =
 
 <template>
   <!-- Dismissible: a span wrapper, because it has to contain a button. -->
-  <span v-if="props.dismissible" :class="[base, tones[props.tone], 'pl-2 pr-1']">
+  <span v-if="props.dismissible" :class="[base, toneClasses[props.tone], 'pl-2 pr-1']">
     <button v-if="props.interactive" type="button" :class="pressable">
       <slot />
     </button>
@@ -85,7 +85,7 @@ const dismissButton =
     :is="props.interactive ? 'button' : 'span'"
     v-else
     :type="props.interactive ? 'button' : undefined"
-    :class="[base, tones[props.tone], 'px-2', props.interactive ? pressable : '']"
+    :class="[base, toneClasses[props.tone], 'px-2', props.interactive ? pressable : '']"
   >
     <slot />
   </component>

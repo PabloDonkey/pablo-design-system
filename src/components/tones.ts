@@ -1,3 +1,3 @@
 /** The colour names shared by PChip and PButton. */
-export const tones = ["neutral", "accent", "warning", "danger"] as const;
-export type Tone = (typeof tones)[number];
+export type Tone = "neutral" | "accent" | "warning" | "danger";
+export const tones = ["neutral", "accent", "warning", "danger"] as const satisfies readonly Tone[];
