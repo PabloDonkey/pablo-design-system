@@ -8,10 +8,10 @@
  * found and would silently generate no CSS.
  */
 
+import type { Tone } from "./tones";
+
 /** The style: a filled button, a border only, or text only. */
 type Variant = "solid" | "outline" | "ghost";
-/** The colour. The same four names as PChip's `tone`. */
-type Tone = "neutral" | "accent" | "warning" | "danger";
 type Size = "sm" | "md";
 
 const props = withDefaults(
@@ -81,7 +81,7 @@ const sizes: Record<Size, string> = {
     :class="[
       base,
       'disabled:cursor-not-allowed disabled:opacity-50',
-      styles[props.variant][props.tone],
+      styles[props.variant]?.[props.tone],
       sizes[props.size],
     ]"
   >
@@ -92,7 +92,7 @@ const sizes: Record<Size, string> = {
     :class="[
       base,
       props.disabled ? 'cursor-not-allowed opacity-50' : 'cursor-pointer',
-      styles[props.variant][props.tone],
+      styles[props.variant]?.[props.tone],
       sizes[props.size],
     ]"
   >

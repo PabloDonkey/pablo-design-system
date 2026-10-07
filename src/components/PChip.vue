@@ -12,7 +12,7 @@
  * root has to step back to a span the moment an X exists.
  */
 
-type Tone = "neutral" | "accent" | "warning" | "danger";
+import type { Tone } from "./tones";
 
 const props = withDefaults(
   defineProps<{

@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import PButton from "./PButton.vue";
+import { tones } from "./tones";
 
 const variants = ["solid", "outline", "ghost"] as const;
-const tones = ["neutral", "accent", "warning", "danger"] as const;
 </script>
 
 <template>
