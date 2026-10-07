@@ -43,16 +43,36 @@ for (const theme of themes) {
     const screen = render(
       board(theme, () =>
         h("div", { class: "flex flex-wrap items-center gap-2" }, [
-          h(PButton, { variant: "primary" }, () => "Primary"),
-          h(PButton, { variant: "secondary" }, () => "Secondary"),
-          h(PButton, { variant: "danger" }, () => "Danger"),
+          h(PButton, { variant: "solid", tone: "accent" }, () => "Primary"),
+          h(PButton, null, () => "Secondary"),
+          h(PButton, { tone: "danger" }, () => "Danger"),
           h(PButton, { variant: "ghost" }, () => "Ghost"),
-          h(PButton, { variant: "primary", disabled: true }, () => "Disabled"),
+          h(PButton, { variant: "solid", tone: "accent", disabled: true }, () => "Disabled"),
         ]),
       ),
     );
 
     await expect.element(screen.getByTestId("board")).toMatchScreenshot(`button-${theme}`);
+  });
+
+  test(`PButton renders every variant and tone on the ${theme} ground`, async () => {
+    const variants = ["solid", "outline", "ghost"] as const;
+    const tones = ["neutral", "accent", "warning", "danger"] as const;
+    const screen = render(
+      board(theme, () =>
+        h(
+          "div",
+          { class: "grid grid-cols-4 gap-2" },
+          variants.flatMap((variant) =>
+            tones.map((tone) => h(PButton, { variant, tone }, () => `${variant} ${tone}`)),
+          ),
+        ),
+      ),
+    );
+
+    await expect
+      .element(screen.getByTestId("board"))
+      .toMatchScreenshot(`button-matrix-${theme}`);
   });
 
   test(`PChip renders every tone on the ${theme} ground`, async () => {

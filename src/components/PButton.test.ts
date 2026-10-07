@@ -38,8 +38,8 @@ test("defaults to type=button, so it cannot submit a form by accident", async ()
     .toHaveAttribute("type", "button");
 });
 
-test("the danger variant is still just a button to a screen reader", async () => {
-  const screen = render(PButton, { props: { variant: "danger" }, slots: { default: "Delete" } });
+test("the danger tone is still just a button to a screen reader", async () => {
+  const screen = render(PButton, { props: { tone: "danger" }, slots: { default: "Delete" } });
 
   await expect.element(screen.getByRole("button", { name: "Delete" })).toBeVisible();
 });
@@ -55,4 +55,23 @@ test("as=\"label\" renders a real <label>, not a <button>", async () => {
   await expect.element(label).toBeVisible();
   expect(label.element().tagName).toBe("LABEL");
   expect(screen.container.querySelector("button")).toBeNull();
+});
+
+test("defaults to the outline variant and the neutral tone", async () => {
+  const screen = render(PButton, { slots: { default: "Cancel" } });
+
+  await expect
+    .element(screen.getByRole("button", { name: "Cancel" }))
+    .toHaveClass("border-hairline");
+});
+
+test("the tone sets the colour of the chosen variant", async () => {
+  const screen = render(PButton, {
+    props: { variant: "outline", tone: "warning" },
+    slots: { default: "Ready" },
+  });
+
+  const button = screen.getByRole("button", { name: "Ready" });
+  await expect.element(button).toHaveClass("border-warning");
+  await expect.element(button).toHaveClass("text-warning");
 });
