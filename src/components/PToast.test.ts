@@ -199,14 +199,15 @@ test("the offset prop lifts the viewport above a pinned bar", async () => {
   const { viewport } = mount({ offset: "5rem" });
   await expect.element(viewport).toBeInTheDocument();
 
-  const element = document.querySelector<HTMLElement>('[role="region"]');
+  // Reka puts the style on the inner list, not on the region wrapper.
+  const element = document.querySelector<HTMLElement>('[role="region"] > ol');
   expect(element?.style.getPropertyValue("--p-toast-offset")).toBe("5rem");
 });
 
 test("the viewport is a labelled region", async () => {
-  const { viewport } = mount({ label: "Messages" });
+  const { screen } = mount({ label: "Messages" });
 
-  await expect.element(viewport).toBeInTheDocument();
+  await expect.element(screen.getByRole("region", { name: /Messages/ })).toBeInTheDocument();
   expect(document.querySelector('[role="region"]')?.getAttribute("aria-label")).toContain(
     "Messages",
   );
