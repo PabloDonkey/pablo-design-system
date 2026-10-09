@@ -16,23 +16,26 @@
 import { ToastProvider, ToastViewport } from "reka-ui";
 
 import PToast from "./PToast.vue";
-import { useToast } from "./useToast";
+import { DEFAULT_DURATION, useToast } from "./useToast";
 
 const props = withDefaults(
   defineProps<{
-    /** The gap between the bottom of the screen and the stack. Any CSS length. */
+    /**
+     * The gap between the bottom of the screen and the stack. Any CSS length. When it is not
+     * set, the stack uses `--p-toast-offset` from a stylesheet, or 1rem.
+     */
     offset?: string;
     /** The accessible name of the region. */
     label?: string;
   }>(),
-  { offset: "1rem", label: "Notifications" },
+  { offset: undefined, label: "Notifications" },
 );
 
 const { toasts, close } = useToast();
 </script>
 
 <template>
-  <ToastProvider swipe-direction="down" :duration="5000" :label="props.label">
+  <ToastProvider swipe-direction="down" :duration="DEFAULT_DURATION" :label="props.label">
     <PToast
       v-for="item in toasts"
       :key="item.id"
@@ -50,7 +53,7 @@ const { toasts, close } = useToast();
          on for itself. -->
     <ToastViewport
       :label="`${props.label} ({hotkey})`"
-      :style="{ '--p-toast-offset': props.offset }"
+      :style="props.offset ? { '--p-toast-offset': props.offset } : undefined"
       class="pointer-events-none fixed inset-x-0 bottom-[var(--p-toast-offset,1rem)] z-50 m-0 flex list-none flex-col items-center gap-2 px-4 outline-none"
     />
   </ToastProvider>

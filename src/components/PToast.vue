@@ -12,6 +12,7 @@
 import { ToastAction, ToastClose, ToastDescription, ToastRoot } from "reka-ui";
 
 import PButton from "./PButton.vue";
+import { DEFAULT_DURATION } from "./useToast";
 import type { ToastTone } from "./useToast";
 
 const props = withDefaults(
@@ -29,7 +30,7 @@ const props = withDefaults(
   {
     tone: "neutral",
     open: true,
-    duration: 5000,
+    duration: DEFAULT_DURATION,
     actionLabel: undefined,
     closeLabel: "Close",
   },
