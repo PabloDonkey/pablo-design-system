@@ -10,7 +10,7 @@ application's domain.
 
 - **Tokens** — colour, type, radius. Every colour is defined for light and dark.
 - **A base layer** — page background, body text, and a visible keyboard focus ring.
-- **Four primitives** — `PButton`, `PChip`, `PPanel`, `PSectionLabel`.
+- **Primitives** — `PButton`, `PChip`, `PPanel`, `PSectionLabel`, `PToast` and more.
 
 ## Install it
 
@@ -88,6 +88,27 @@ document.documentElement.dataset.theme = "dark";  // whole page
 
 It works on a subtree too, because the tokens are inherited custom properties.
 A dark panel inside a light page is `<div data-theme="dark">`.
+
+## Toasts
+
+Mount one `PToastViewport` near the root of the app:
+
+```vue
+<PToastViewport />                  <!-- or offset="4rem" above a pinned bar -->
+```
+
+Show a toast from any code:
+
+```ts
+import { useToast } from "pablo-design-system";
+
+const toast = useToast();
+toast.show({ tone: "danger", text: "Could not send", action: { label: "Retry", onClick: send } });
+```
+
+Tones are `neutral`, `success`, `danger`. `duration` is in milliseconds, and `0` keeps the
+toast until it is closed. A `danger` toast uses `role="alert"`. The timer pauses on hover and
+focus. See the `PToast` story for every option.
 
 ## Develop
 
