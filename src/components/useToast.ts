@@ -35,7 +35,8 @@ export interface ToastItem {
 
 /** How long a closed toast stays in the list so its exit motion can finish. */
 const EXIT_MS = 200;
-const DEFAULT_DURATION = 5000;
+/** How long a toast stays when the caller sets no duration, in milliseconds. */
+export const DEFAULT_DURATION = 5000;
 
 // One list for the whole page, on purpose. The app mounts one `PToastViewport`, and any
 // code can show a toast without passing a `ref` around.

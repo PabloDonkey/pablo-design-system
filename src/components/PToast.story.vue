@@ -100,10 +100,28 @@ Every call to `useToast()` shares one list. The app does not keep its own `ref` 
 
 | Prop | Meaning |
 |---|---|
-| `offset` | The gap above the bottom of the screen. Any CSS length. Default `1rem`. Raise it for a pinned action bar. |
+| `offset` | The gap above the bottom of the screen. Any CSS length. Raise it for a pinned action bar. When it is not set, the stack uses `--p-toast-offset`, or `1rem`. |
 | `label` | The accessible name of the region. Default `Notifications`. |
 
 The offset also comes from the CSS variable `--p-toast-offset`.
+
+## `PToast` props and events
+
+Most code does not use `PToast` directly. It needs a `ToastProvider` above it. The viewport
+builds one `PToast` for each item in the list.
+
+| Prop | Meaning |
+|---|---|
+| `tone` | `neutral` (default), `success`, or `danger`. |
+| `open` | The open state. Use `v-model:open`. Default `true`. |
+| `duration` | Milliseconds before it closes. Default 5000. `0` keeps it open. |
+| `actionLabel` | The text of the action button. The button shows only when this is set. |
+| `closeLabel` | The accessible name of the close button. Default `Close`. |
+
+| Event | Meaning |
+|---|---|
+| `update:open` | The open state changed. Sent with `false` when the toast closes. |
+| `action` | The action button was pressed. The toast closes after this. |
 
 ## Behaviour
 
