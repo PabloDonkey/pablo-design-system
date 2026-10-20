@@ -5,6 +5,7 @@ export { default as PPanel } from "./components/PPanel.vue";
 export { default as PScrollArea } from "./components/PScrollArea.vue";
 export { default as PSectionLabel } from "./components/PSectionLabel.vue";
 export { default as PSelect, type SelectOption } from "./components/PSelect.vue";
+export { default as PSwitch } from "./components/PSwitch.vue";
 export { default as PTabs, type TabItem } from "./components/PTabs.vue";
 export { default as PThemeToggle } from "./components/PThemeToggle.vue";
 export { default as PToast } from "./components/PToast.vue";

@@ -7,6 +7,7 @@ import PButton from "./PButton.vue";
 import PChip from "./PChip.vue";
 import PPanel from "./PPanel.vue";
 import PSectionLabel from "./PSectionLabel.vue";
+import PSwitch from "./PSwitch.vue";
 
 /**
  * Visual baselines.
@@ -120,5 +121,20 @@ for (const theme of themes) {
     await expect
       .element(screen.getByTestId("board"))
       .toMatchScreenshot(`panel-options-${theme}`);
+  });
+
+  test(`PSwitch renders on, off, and disabled on the ${theme} ground`, async () => {
+    const screen = render(
+      board(theme, () =>
+        h("div", { class: "flex flex-col gap-3" }, [
+          h(PSwitch, { modelValue: true, label: "On" }),
+          h(PSwitch, { modelValue: false, label: "Off" }),
+          h(PSwitch, { modelValue: true, label: "Disabled on", disabled: true }),
+          h(PSwitch, { modelValue: false, label: "Disabled off", disabled: true }),
+        ]),
+      ),
+    );
+
+    await expect.element(screen.getByTestId("board")).toMatchScreenshot(`switch-${theme}`);
   });
 }
